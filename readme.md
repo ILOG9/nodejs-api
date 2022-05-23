@@ -10,9 +10,9 @@ En esta aplicación usted puede:
 
 -   **Realizar un CRUD de usuario autenticado sobre HTTP**
 
--   **Enviar correos electrónicos**: usted puede probar agregando las credenciales de https://mailtrap.io/ al archivo .env
+-   **Enviar correos electrónicos**: Usted puede probar agregando las credenciales de https://mailtrap.io/ al archivo .env
 
--   **Enviar mensajes de texto**: Requiere una cuenta de twilio, puede agregar sus credenciales al .env, además debe enviar el sms a un número verificado por twilio (Si usted se encuentra utilizado una cuenta gratuita)
+-   **Enviar mensajes de texto**: Usted requiere una cuenta de twilio, puede agregar sus credenciales al .env, además debe enviar el sms a un número verificado por twilio (Si usted se encuentra utilizado una cuenta gratuita)
 
 -   **Manipulación básica del File System**
 

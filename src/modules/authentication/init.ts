@@ -11,7 +11,7 @@ export default class AuthenticationModule {
     public routes: Routes
 
     constructor(app: Express) {
-        // this.onLoad()
+        this.onLoad()
         this.routes = new Routes(app, new RouteController())
     }
 
