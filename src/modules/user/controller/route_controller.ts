@@ -7,16 +7,18 @@ import ChileanValidator from '../../../lib/lib/validator/country-id/chilean-vali
 export default class RouteController {
     constructor() {}
 
-    listUsers = async (request: Request, response: Response) => {}
+    listUsers = async (request: Request, response: Response) => {
+        response.status(HttpStatus.ok).json(await new UserDB().secureList())
+    }
 
     createUser = async (request: Request, response: Response) => {
         const validationEmail = new Validator(request.body, {
             email: 'required|email',
-            password: 'required|min:7',
+            password: 'required',
         })
         const validationRut = new Validator(request.body, {
             rut: 'required',
-            password: 'required|min:7',
+            password: 'required',
         })
         if (validationRut.passes()) {
             if (new ChileanValidator().validateChileanRut(request.body.rut)) {
@@ -25,12 +27,11 @@ export default class RouteController {
                     .secureSave(request.body)
                     .then((payload: any) => {
                         response.status(HttpStatus.created).json(payload)
-                        return
                     })
                     .catch((error: Error) => {
                         response.status(HttpStatus.conflict).json(error)
-                        return
                     })
+                return
             } else {
                 response.status(HttpStatus.conflict).json('Rut no válido.')
                 return
@@ -41,13 +42,15 @@ export default class RouteController {
                 .secureSave(request.body)
                 .then((payload: any) => {
                     response.status(HttpStatus.created).json(payload)
-                    return
                 })
                 .catch((error: Error) => {
                     response.status(HttpStatus.conflict).json(error)
-                    return
                 })
+            return
         }
+        response.status(HttpStatus.ok).json({
+            message: 'Valid data ratio',
+        })
     }
 
     updateUser = async (request: Request, response: Response) => {
@@ -66,14 +69,13 @@ export default class RouteController {
                         response.status(HttpStatus.ok).json({
                             message: 'User updated correctly',
                         })
-                        return
                     })
                     .catch(function () {
                         response.status(HttpStatus.badRequest).json({
                             message: 'Error in update user',
                         })
-                        return
                     })
+                return
             }
         } else if (validationEmail.passes()) {
             const userDB: any = new UserDB()
@@ -83,20 +85,27 @@ export default class RouteController {
                     response.status(HttpStatus.ok).json({
                         message: 'User updated correctly',
                     })
-                    return
                 })
                 .catch(function () {
                     response.status(HttpStatus.badRequest).json({
                         message: 'Error in update user',
                     })
-                    return
                 })
+            return
         } else {
             response.status(HttpStatus.badRequest).json({
                 message: "doesn't have rut or email",
             })
+            return
         }
+        response.status(HttpStatus.ok).json({
+            message: 'Valid data ratio',
+        })
     }
 
-    showUser = async (request: Request, response: Response) => {}
+    showUser = async (request: Request, response: Response) => {
+        response
+            .status(HttpStatus.ok)
+            .json(await new UserDB().secureShow(request.body.id))
+    }
 }

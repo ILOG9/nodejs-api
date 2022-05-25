@@ -17,5 +17,10 @@ export default class Routes {
         app.route(this.userPrefix + 'create').post(
             this.routeController.createUser
         )
+        app.route(this.userPrefix + 'list').get(this.routeController.listUsers)
+        app.route(this.userPrefix + 'show').post(this.routeController.showUser)
+        app.route(this.userPrefix + 'update').post(
+            this.routeController.updateUser
+        )
     }
 }

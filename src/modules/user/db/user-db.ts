@@ -123,16 +123,19 @@ userSchema.method('secureUpdate', async function (user: userType) {
         return {
             message: "user doesn't have changed",
         }
-
-        // await model('UserDB').updateOne(
-        //     { rut: user.rut },
-        //     user
-        // )
     } else {
         return {
             message: 'Identifier error',
         }
     }
+})
+
+userSchema.method('secureList', async function () {
+    return await model('UserDB').find()
+})
+
+userSchema.method('secureShow', async function (id: string) {
+    return await model('UserDB').findById(id)
 })
 
 userSchema.method('secureDelete', async function (user: userType) {})
