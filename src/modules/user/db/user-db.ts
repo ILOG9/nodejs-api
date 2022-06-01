@@ -138,6 +138,8 @@ userSchema.method('secureShow', async function (id: string) {
     return await model('UserDB').findById(id)
 })
 
-userSchema.method('secureDelete', async function (user: userType) {})
+userSchema.method('secureDelete', async function (id: string) {
+    return await model('UserDB').deleteOne({ _id: id })
+})
 
 export default model('UserDB', userSchema)
