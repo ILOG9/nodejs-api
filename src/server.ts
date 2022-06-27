@@ -5,6 +5,7 @@ class WWW {
     constructor() {}
 
     listener(port: string = '3001') {
+        port = process.env.APP_PORT ?? port
         const app: App = new App()
         app.app.listen(port, () => {
             console.log('---------------------------------------------')
