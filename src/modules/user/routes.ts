@@ -14,13 +14,9 @@ export default class Routes {
      * Establecemos los endpoints para el modulo, utilizando el paquete express
      */
     private configureRoutes(app: Express) {
-        app.route(this.userPrefix + 'create').post(
-            this.routeController.createUser
-        )
-        app.route(this.userPrefix + 'list').get(this.routeController.listUsers)
-        app.route(this.userPrefix + 'show').post(this.routeController.showUser)
-        app.route(this.userPrefix + 'update').post(
-            this.routeController.updateUser
-        )
+        app.route(this.userPrefix + 'create').post(this.routeController.create)
+        app.route(this.userPrefix + 'list').get(this.routeController.list)
+        app.route(this.userPrefix + 'show').post(this.routeController.show)
+        app.route(this.userPrefix + 'update').post(this.routeController.modify)
     }
 }

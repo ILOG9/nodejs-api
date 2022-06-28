@@ -1,111 +1,113 @@
 import { Request, Response } from 'express'
-import Validator from 'validatorjs'
-import UserDB from '../db/user-db'
-import { HttpStatus } from '../../../lib/http/http-status'
-import ChileanValidator from '../../../lib/lib/validator/country-id/chilean-validator'
+import IResourceController from '../../../lib/module-core/interfaces/i_resource_controller'
+import chalk from 'chalk'
+import MongoDBResourceController from './mongodb/mongodb_resource_controller'
+import PostreSQLResourceController from './postgresql/postgresql_resource_controller'
+import RedisResourceController from './redis/redis_resource_controller'
 
-export default class RouteController {
+export default class RouteController implements IResourceController {
+    #mongoDBResourceController: MongoDBResourceController =
+        new MongoDBResourceController()
+
+    #postreSQLResourceController: PostreSQLResourceController =
+        new PostreSQLResourceController()
+
+    #redisResourceController: RedisResourceController =
+        new RedisResourceController()
     constructor() {}
 
-    listUsers = async (request: Request, response: Response) => {
-        response.status(HttpStatus.ok).json(await new UserDB().secureList())
-    }
-
-    createUser = async (request: Request, response: Response) => {
-        const validationEmail = new Validator(request.body, {
-            email: 'required|email',
-            password: 'required',
-        })
-        const validationRut = new Validator(request.body, {
-            rut: 'required',
-            password: 'required',
-        })
-        if (validationRut.passes()) {
-            if (new ChileanValidator().validateChileanRut(request.body.rut)) {
-                const userDB: any = new UserDB()
-                await userDB
-                    .secureSave(request.body)
-                    .then((payload: any) => {
-                        response.status(HttpStatus.created).json(payload)
-                    })
-                    .catch((error: Error) => {
-                        response.status(HttpStatus.conflict).json(error)
-                    })
-                return
-            } else {
-                response.status(HttpStatus.conflict).json('Rut no válido.')
-                return
-            }
-        } else if (validationEmail.passes()) {
-            const userDB: any = new UserDB()
-            await userDB
-                .secureSave(request.body)
-                .then((payload: any) => {
-                    response.status(HttpStatus.created).json(payload)
-                })
-                .catch((error: Error) => {
-                    response.status(HttpStatus.conflict).json(error)
-                })
-            return
+    create = async (request: Request, response: Response) => {
+        const defaultDB = 'default'
+        const databases: any = {
+            mongo: () => {
+                this.#mongoDBResourceController.create(request, response)
+            },
+            postresql: () => {
+                this.#postreSQLResourceController.create(request, response)
+            },
+            redis: () => {
+                this.#redisResourceController.create(request, response)
+            },
+            default: () => {
+                console.log(chalk.red('Unselected Database'))
+            },
         }
-        response.status(HttpStatus.ok).json({
-            message: 'Valid data ratio',
-        })
+        databases[process.env.DB_CONNECTION || defaultDB]()
     }
 
-    updateUser = async (request: Request, response: Response) => {
-        const validationEmail = new Validator(request.body, {
-            email: 'required|email',
-        })
-        const validationRut = new Validator(request.body, {
-            rut: 'required',
-        })
-        if (validationRut.passes()) {
-            if (new ChileanValidator().validateChileanRut(request.body.rut)) {
-                const userDB: any = new UserDB()
-                userDB
-                    .secureUpdate(request.body)
-                    .then(function () {
-                        response.status(HttpStatus.ok).json({
-                            message: 'User updated correctly',
-                        })
-                    })
-                    .catch(function () {
-                        response.status(HttpStatus.badRequest).json({
-                            message: 'Error in update user',
-                        })
-                    })
-                return
-            }
-        } else if (validationEmail.passes()) {
-            const userDB: any = new UserDB()
-            userDB
-                .secureUpdate(request.body)
-                .then(function () {
-                    response.status(HttpStatus.ok).json({
-                        message: 'User updated correctly',
-                    })
-                })
-                .catch(function () {
-                    response.status(HttpStatus.badRequest).json({
-                        message: 'Error in update user',
-                    })
-                })
-            return
-        } else {
-            response.status(HttpStatus.badRequest).json({
-                message: "doesn't have rut or email",
-            })
-            return
+    show = async (request: Request, response: Response) => {
+        const defaultDB = 'default'
+        const databases: any = {
+            mongo: () => {
+                this.#mongoDBResourceController.show(request, response)
+            },
+            postresql: () => {
+                this.#postreSQLResourceController.show(request, response)
+            },
+            redis: () => {
+                this.#redisResourceController.show(request, response)
+            },
+            default: () => {
+                console.log(chalk.red('Unselected Database'))
+            },
         }
-        response.status(HttpStatus.ok).json({
-            message: 'Valid data ratio',
-        })
+        databases[process.env.DB_CONNECTION || defaultDB]()
     }
 
-    showUser = async (request: Request, response: Response) => {
-        response
-            .status(HttpStatus.ok)
-            .json(await new UserDB().secureShow(request.body.id))
+    modify = async (request: Request, response: Response) => {
+        const defaultDB = 'default'
+        const databases: any = {
+            mongo: () => {
+                this.#mongoDBResourceController.modify(request, response)
+            },
+            postresql: () => {
+                this.#postreSQLResourceController.modify(request, response)
+            },
+            redis: () => {
+                this.#redisResourceController.modify(request, response)
+            },
+            default: () => {
+                console.log(chalk.red('Unselected Database'))
+            },
+        }
+        databases[process.env.DB_CONNECTION || defaultDB]()
+    }
+
+    list = async (request: Request, response: Response) => {
+        const defaultDB = 'default'
+        const databases: any = {
+            mongo: () => {
+                this.#mongoDBResourceController.list(request, response)
+            },
+            postresql: () => {
+                this.#postreSQLResourceController.list(request, response)
+            },
+            redis: () => {
+                this.#redisResourceController.list(request, response)
+            },
+            default: () => {
+                console.log(chalk.red('Unselected Database'))
+            },
+        }
+        databases[process.env.DB_CONNECTION || defaultDB]()
+    }
+
+    delete = async (request: Request, response: Response) => {
+        const defaultDB = 'default'
+        const databases: any = {
+            mongo: () => {
+                this.#mongoDBResourceController.delete(request, response)
+            },
+            postresql: () => {
+                this.#postreSQLResourceController.delete(request, response)
+            },
+            redis: () => {
+                this.#redisResourceController.delete(request, response)
+            },
+            default: () => {
+                console.log(chalk.red('Unselected Database'))
+            },
+        }
+        databases[process.env.DB_CONNECTION || defaultDB]()
     }
 }
