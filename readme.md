@@ -1,6 +1,6 @@
 # Api con nodejs (incompleto) 🐱‍👤
 
-Aplicación pensada para la demostración de conocimientos en el entorno de ejecución nodejs con typescript.
+Aplicación pensada para la demostración de conocimientos en el entorno de ejecución Node.js con TypeScript, puede encontrar una instancia en ejecución en https://nodejs-api-dev.onrender.com/.
 
 ---
 

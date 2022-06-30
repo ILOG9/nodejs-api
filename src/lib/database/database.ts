@@ -2,6 +2,9 @@ import MongoDB from './mongodb/mongodb'
 import PostreSQL from './postgresql/postgresql'
 import Redis from './redis/redis'
 import chalk from 'chalk'
+import MySQL from './mysql/mysql'
+import SQLServer from './sqlserver/sqlserver'
+import MariaDB from './mariadb/mariadb'
 export default class Database {
     constructor() {}
 
@@ -12,20 +15,29 @@ export default class Database {
         try {
             const defaultDB = 'default'
             const databases: any = {
-                mongo: async () => {
-                    await new MongoDB().init()
+                mongo: () => {
+                    new MongoDB()
                 },
-                postresql: async () => {
-                    await new PostreSQL().init()
+                postgres: () => {
+                    new PostreSQL()
                 },
-                redis: async () => {
-                    await new Redis().init()
+                redis: () => {
+                    new Redis()
                 },
-                default: async () => {
+                mysql: () => {
+                    new MySQL()
+                },
+                mssql: () => {
+                    new SQLServer()
+                },
+                mariadb: () => {
+                    new MariaDB()
+                },
+                default: () => {
                     console.log(chalk.red('Unselected Database'))
                 },
             }
-            await databases[process.env.DB_CONNECTION || defaultDB]()
+            databases[process.env.DB_CONNECTION || defaultDB]()
         } catch (err: any) {
             console.error(err)
         }

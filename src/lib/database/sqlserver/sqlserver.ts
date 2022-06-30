@@ -1,5 +1,5 @@
 import SequelizeConnection from '../sequelize_connection'
-export default class PostreSQL extends SequelizeConnection {
+export default class SQLServer extends SequelizeConnection {
     constructor() {
         super()
         this.#config()
