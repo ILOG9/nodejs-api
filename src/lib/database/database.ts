@@ -5,7 +5,11 @@ import chalk from 'chalk'
 import MySQL from './mysql/mysql'
 import SQLServer from './sqlserver/sqlserver'
 import MariaDB from './mariadb/mariadb'
+import SequelizeConnection from './sequelize_connection'
+
 export default class Database {
+    sequelizeConnection?: SequelizeConnection
+
     constructor() {}
 
     /*
@@ -18,20 +22,20 @@ export default class Database {
                 mongo: () => {
                     new MongoDB()
                 },
-                postgres: () => {
-                    new PostreSQL()
-                },
                 redis: () => {
                     new Redis()
                 },
+                postgres: () => {
+                    this.sequelizeConnection = new PostreSQL()
+                },
                 mysql: () => {
-                    new MySQL()
+                    this.sequelizeConnection = new MySQL()
                 },
                 mssql: () => {
-                    new SQLServer()
+                    this.sequelizeConnection = new SQLServer()
                 },
                 mariadb: () => {
-                    new MariaDB()
+                    this.sequelizeConnection = new MariaDB()
                 },
                 default: () => {
                     console.log(chalk.red('Unselected Database'))

@@ -4,7 +4,7 @@ import chalk from 'chalk'
 type databases = 'mysql' | 'mariadb' | 'postgres' | 'mssql'
 
 export default abstract class SequelizeConnection {
-    protected sequelize
+    sequelize: Sequelize
     #databases: any = {
         mysql: ['mysql', 'MySQL'],
         mariadb: ['mariadb', 'MariaDB'],
@@ -22,8 +22,20 @@ export default abstract class SequelizeConnection {
                 {
                     host: process.env.DB_HOST!,
                     dialect: this.#databases[process.env.DB_CONNECTION!][0],
+                    pool: {
+                        max: 5,
+                        min: 0,
+                        idle: 5000,
+                    },
                 }
             )
+        } catch (err: any) {
+            throw err
+        }
+    }
+
+    testConnetion() {
+        if (this.sequelize) {
             console.log(
                 chalk.green(
                     this.#databases[process.env.DB_CONNECTION!][1] +
@@ -33,14 +45,13 @@ export default abstract class SequelizeConnection {
                         ' connected.'
                 )
             )
-        } catch (err: any) {
+        } else {
             console.log(
                 chalk.red(
                     this.#databases[process.env.DB_CONNECTION!][1] +
                         ' database not connected'
                 )
             )
-            throw err
         }
     }
 }

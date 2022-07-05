@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Response, Request, NextFunction } from 'express'
 import { HttpStatus } from '../http/http-status'
 import { base64ToUtf } from '../utils/transformers'
+import chalk from 'chalk'
 
 type tokenToObjectStructure = {
     header: { alg: string; typ: string }
@@ -35,6 +36,11 @@ export default class JWT {
     static getInstance(expireTime: number = 900): JWT {
         if (!JWT.#instance) {
             JWT.#instance = new JWT(expireTime)
+        }
+        if (JWT.#instance && expireTime != 900) {
+            console.log(
+                chalk('JWT expireTime values has been established previously.')
+            )
         }
         return JWT.#instance
     }
