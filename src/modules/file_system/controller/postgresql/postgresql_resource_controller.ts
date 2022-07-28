@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import IResourceController from '../../../../lib/module-core/interfaces/i_resource_controller'
+import IResourceController from '../../../../lib/module-core/controller/interfaces/http_resource'
 
 export default class PostreSQLResourceController
     implements IResourceController

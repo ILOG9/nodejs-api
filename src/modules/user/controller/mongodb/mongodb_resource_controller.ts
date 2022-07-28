@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
-import IResourceController from '../../../../lib/module-core/interfaces/i_resource_controller'
+import HTTPResource from '../../../../lib/module-core/controller/interfaces/http_resource'
 import { HttpStatus } from '../../../../lib/http/http-status'
 import userDb from '../../db/user-db'
 import ChileanValidator from '../../../../lib/validator/country-id/chilean-validator'
 import Validator from 'validatorjs'
 
-export default class MongoDBResourceController implements IResourceController {
+export default class MongoDBResourceController implements HTTPResource {
     constructor() {}
 
     create = async (request: Request, response: Response) => {

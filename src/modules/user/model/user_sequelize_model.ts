@@ -7,7 +7,7 @@ const sequelizeConnection =
             type: DataTypes.INTEGER,
             primaryKey: true,
         },
-        user_name: {
+        name: {
             type: DataTypes.STRING,
         },
         rut: {
@@ -29,9 +29,6 @@ const sequelizeConnection =
             type: DataTypes.STRING,
         },
         verification_code: {
-            type: DataTypes.STRING,
-        },
-        profile_id: {
             type: DataTypes.STRING,
         },
     })

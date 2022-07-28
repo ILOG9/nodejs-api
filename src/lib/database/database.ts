@@ -1,11 +1,8 @@
 import MongoDB from './mongodb/mongodb'
-import PostreSQL from './postgresql/postgresql'
 import Redis from './redis/redis'
 import chalk from 'chalk'
-import MySQL from './mysql/mysql'
-import SQLServer from './sqlserver/sqlserver'
-import MariaDB from './mariadb/mariadb'
-import SequelizeConnection from './sequelize_connection'
+import SequelizeManager from './sequelize/sequelize_manager'
+import SequelizeConnection from './sequelize/sequelize_connection'
 
 export default class Database {
     sequelizeConnection?: SequelizeConnection
@@ -26,16 +23,16 @@ export default class Database {
                     new Redis()
                 },
                 postgres: () => {
-                    this.sequelizeConnection = new PostreSQL()
+                    this.sequelizeConnection = new SequelizeManager()
                 },
                 mysql: () => {
-                    this.sequelizeConnection = new MySQL()
+                    this.sequelizeConnection = new SequelizeManager()
                 },
                 mssql: () => {
-                    this.sequelizeConnection = new SQLServer()
+                    this.sequelizeConnection = new SequelizeManager()
                 },
                 mariadb: () => {
-                    this.sequelizeConnection = new MariaDB()
+                    this.sequelizeConnection = new SequelizeManager()
                 },
                 default: () => {
                     console.log(chalk.red('Unselected Database'))

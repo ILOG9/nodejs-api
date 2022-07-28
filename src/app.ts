@@ -46,8 +46,7 @@ export default class App {
     async #initDatabase() {
         const database: Database = new Database()
         await database.init()
-        if (database.sequelizeConnection) {
+        if (database.sequelizeConnection)
             database.sequelizeConnection.testConnetion()
-        }
     }
 }

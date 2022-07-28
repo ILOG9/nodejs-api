@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 
-export default interface IRouteController {
+export default interface HTTPResource {
     create(request: Request, response: Response): void
 
     show(request: Request, response: Response): void

@@ -1,13 +1,13 @@
 import { Request, Response } from 'express'
-import IRouteController from '../../../lib/module-core/interfaces/i_route_controller'
-import ARouteController from '../../../lib/module-core/abstracts/a_route_controller'
+import HTTPResource from '../../../lib/module-core/controller/interfaces/http_resource'
+import ARouteController from '../../../lib/module-core/controller/abstracts/a_route_controller'
 import MongoDBResourceController from './mongodb/mongodb_resource_controller'
 import PostreSQLResourceController from './postgresql/postgresql_resource_controller'
 import RedisResourceController from './redis/redis_resource_controller'
 
 export default class RouteController
     extends ARouteController
-    implements IRouteController
+    implements HTTPResource
 {
     #mongoDBResourceController: MongoDBResourceController =
         new MongoDBResourceController()

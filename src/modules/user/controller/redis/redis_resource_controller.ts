@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import IResourceController from '../../../../lib/module-core/interfaces/i_resource_controller'
+import HTTPResource from '../../../../lib/module-core/controller/interfaces/http_resource'
 
-export default class RedisResourceController implements IResourceController {
+export default class RedisResourceController implements HTTPResource {
     constructor() {}
 
     create = async (request: Request, response: Response) => {}
